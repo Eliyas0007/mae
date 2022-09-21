@@ -1,0 +1,9 @@
+*.png
+
+performance*
+savedModels
+__pycache__
+
+*.cpython
+events*
+*.pth
