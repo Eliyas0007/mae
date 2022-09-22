@@ -19,11 +19,11 @@ from DataLoader.SemanticDataLoader import SemanticDataset, AddGaussianNoise
 
 # save path for model
 model_save_path = './savedModels/'
-model_load_path = './savedModels/3_cl_128_real_rm_mrae_b16_step20000_45.pth'
+model_load_path = './savedModels/1_cl_real_p16_mae_b32_step250000_114.pth'
 
 print('Initializing!')
 # Hyperparameters
-starting_epoch = 0
+starting_epoch = 115
 num_epochs = 5000
 learning_rate = 0.001
 batch_size = 32
@@ -43,9 +43,9 @@ try: os.mkdir(f'./performance_{model_save_name}')
 except: ...
 
 # tensorboard Hyperparameters
-load_model = False
+load_model = True
 writer = SummaryWriter(f'performance_{model_save_name}/')
-step = 0
+step = 250001
 # netD = Discriminator(in_channels=3)
 # netD.apply(weights_init)
 # netD = netD.to(device)
@@ -132,7 +132,7 @@ for epoch in range(starting_epoch, num_epochs):
             # nn.utils.clip_grad_norm_(MbVAE.parameters(), max_norm=1)  
             optimizer_vae.step()
 
-            if step % 20 == 0:
+            if step % 100 == 0:
                 # try: os.mkdir(f'/home/yiliyasi/Documents/Projects/Mine/MTAE/performance_{model_save_name}')
                 # except: ...
                 # print(train[0].shape, pred[0].shape, target[0].shape)
@@ -140,7 +140,7 @@ for epoch in range(starting_epoch, num_epochs):
                 imwrite(f'./performance_{model_save_name}/step{step}_{epoch}.png', rearrange(image * 255, 'c h w -> h w c'))
 
             # print(f'Training Loss : {loss.item()}')
-            if step % 5000 == 0 and step != 0:                
+            if step % 25000 == 0 and step != 0:                
                 torch.save(model.state_dict(), model_save_path + f'{model_save_name}_step{step}_{epoch}.pth')
 
                 # torch.save(netD.state_dict(), model_save_path + f'discriminator_step{step}_{epoch}.pth')
